@@ -8,7 +8,7 @@ constexpr uint8_t FC_BUTTON_MODE = 3;
 constexpr uint8_t FC_BUTTON_LOWER = 4;
 constexpr uint8_t FC_BUTTON_HIGHER = 5;
 
-constexpr uint32_t FC_BAUD_RATE = 9600;
+constexpr uint32_t FC_BAUD_RATE = 19200;
 constexpr uint32_t FC_INIT_DELAY = 500;
 constexpr uint32_t FC_PRESS_DELAY = 100;
 
@@ -24,6 +24,7 @@ inline auto press_button(uint8_t button) noexcept -> void {
   delay(FC_PRESS_DELAY);
   digitalWrite(button, LOW);
   digitalWrite(LED_BUILTIN, LOW);
+  delay(FC_PRESS_DELAY);
 }
 
 auto setup() -> void {
@@ -42,23 +43,23 @@ auto loop() -> void {
     switch(Serial.read()) {
       case FC_MESSAGE_ON:
         press_button(FC_BUTTON_POWER);
-        Serial.println("Changed power status: on");
+        Serial.println("power_on");
         break;
       case FC_MESSAGE_OFF:
         press_button(FC_BUTTON_POWER);
-        Serial.println("Changed power status: off");
+        Serial.println("power_off");
         break;
       case FC_MESSAGE_MODE:
         press_button(FC_BUTTON_MODE);
-        Serial.println("Changed mode");
+        Serial.println("change_mode");
         break;
       case FC_MESSAGE_LOWER:
         press_button(FC_BUTTON_LOWER);
-        Serial.println("Changed speed");
+        Serial.println("speed_down");
         break;
       case FC_MESSAGE_HIGHER:
         press_button(FC_BUTTON_HIGHER);
-        Serial.println("Changed speed");
+        Serial.println("speed_up");
         break;
     }
   }
